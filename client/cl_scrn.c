@@ -1125,6 +1125,19 @@ void SCR_ExecuteLayoutString (char *s)
 			continue;
 		}
 
+		//my addition
+		if (!strcmp(token, "pnt")) {
+			int color;
+			value = cl.frame.playerstate.stats[STAT_POINTS];
+			width = 3;
+			color = 0;
+			//printf("ma poiints: %d", cl.frame.playerstate.stats[STAT_POINTS]);
+			//gi.bprintf(PRINT_HIGH, "POINTS IN HUD: %d\n", ent->client->ps.stats[STAT_POINTS]);
+
+			SCR_DrawField(x, y, color, width, value);
+			continue;
+		}
+
 		if (!strcmp(token, "anum"))
 		{	// ammo number
 			int		color;

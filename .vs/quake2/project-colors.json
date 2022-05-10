@@ -1,0 +1,26 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "99bc3f01-a7ee-4881-939f-8a5eb75e1973": {
+      "ProjectGuid": "99bc3f01-a7ee-4881-939f-8a5eb75e1973",
+      "DisplayName": "game",
+      "ColorIndex": 0
+    },
+    "c50658d3-5399-49e0-b84e-296d8e01854f": {
+      "ProjectGuid": "c50658d3-5399-49e0-b84e-296d8e01854f",
+      "DisplayName": "ctf",
+      "ColorIndex": 1
+    },
+    "f575af4a-7bdd-47f6-b65f-f43c514e0069": {
+      "ProjectGuid": "f575af4a-7bdd-47f6-b65f-f43c514e0069",
+      "DisplayName": "quake2",
+      "ColorIndex": 2
+    },
+    "3683fcad-ad76-49ef-a337-4f660a3d237f": {
+      "ProjectGuid": "3683fcad-ad76-49ef-a337-4f660a3d237f",
+      "DisplayName": "ref_gl",
+      "ColorIndex": 3
+    }
+  },
+  "NextColorIndex": 4
+}

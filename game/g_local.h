@@ -767,6 +767,20 @@ void player_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damag
 void	ServerCommand (void);
 qboolean SV_FilterPacket (char *from);
 
+//my addition
+//g_combat.c
+//
+extern void addPoints(int num);
+extern int getPoints();
+
+//m_berserk.c
+//
+void spawnWaves(clock_t currentTime);
+void checkPointsForGuns(int points);
+void checkPointsForPerks(int points);
+void checkForFinish(int points);
+//end my addition
+
 //
 // p_view.c
 //
@@ -959,6 +973,8 @@ struct gclient_s
 
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
+
+	
 };
 
 
@@ -1109,5 +1125,8 @@ struct edict_s
 	// common data blocks
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
+
+	//my addition
+	int			points;
 };
 

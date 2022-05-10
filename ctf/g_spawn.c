@@ -728,19 +728,22 @@ char *dm_statusbar =
 
 // ammo
 "if 2 "
-"	xv	100 "
+"	xv	75 "
 "	anum "
-"	xv	150 "
+"	xv	125 "
 "	pic 2 "
 "endif "
 
 // armor
 "if 4 "
-"	xv	200 "
+"	xv	150 "
 "	rnum "
-"	xv	250 "
+"	xv	200 "
 "	pic 4 "
 "endif "
+
+
+
 
 // selected item
 "if 6 "

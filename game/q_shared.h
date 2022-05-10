@@ -1009,6 +1009,9 @@ typedef enum
 #define STAT_CHASE				16
 #define STAT_SPECTATOR			17
 
+//my addition for points stat
+#define STAT_POINTS				18
+
 #define	MAX_STATS				32
 
 

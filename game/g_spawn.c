@@ -656,17 +656,25 @@ char *single_statusbar =
 
 // ammo
 "if 2 "
-"	xv	100 "
+"	xv	75 "
 "	anum "
-"	xv	150 "
+"	xv	125 "
 "	pic 2 "
 "endif "
 
+/*
+//my addition
+//points
+"xv 150"
+"pnt"
+"xv 200"
+"pic 2"
+*/
 // armor
 "if 4 "
-"	xv	200 "
+"	xv	220 "
 "	rnum "
-"	xv	250 "
+"	xv	270 "
 "	pic 4 "
 "endif "
 

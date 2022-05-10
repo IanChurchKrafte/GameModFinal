@@ -314,21 +314,21 @@ void HelpComputer (edict_t *ent)
 		sk = "hard+";
 
 	// send the layout
-	Com_sprintf (string, sizeof(string),
+	Com_sprintf(string, sizeof(string),
 		"xv 32 yv 8 picn help "			// background
 		"xv 202 yv 12 string2 \"%s\" "		// skill
 		"xv 0 yv 24 cstring2 \"%s\" "		// level name
 		"xv 0 yv 54 cstring2 \"%s\" "		// help 1
 		"xv 0 yv 110 cstring2 \"%s\" "		// help 2
-		"xv 50 yv 164 string2 \" kills     goals    secrets\" "
-		"xv 50 yv 172 string2 \"%3i/%3i     %i/%i       %i/%i\" ", 
+		"xv 50 yv 164 string2 \" kills     points    secrets\" "
+		"xv 50 yv 172 string2 \"%3i         %i          %i\" ", 
 		sk,
-		level.level_name,
-		game.helpmessage1,
-		game.helpmessage2,
-		level.killed_monsters, level.total_monsters, 
-		level.found_goals, level.total_goals,
-		level.found_secrets, level.total_secrets);
+		"Zombies Mod For Quake 2",
+		"Get points for damaging and killing zombies\nTo Check for the next wave, just shoot the blaster\nGuns have been changed to behave more like cod guns",
+		"Get new guns every 500 points\nGet new perks every 1000 points",
+		level.killed_monsters,// level.total_monsters, 
+		getPoints(), //level.total_goals,
+		level.found_secrets); //level.total_secrets);
 
 	gi.WriteByte (svc_layout);
 	gi.WriteString (string);
@@ -384,7 +384,10 @@ void G_SetStats (edict_t *ent)
 	// health
 	//
 	ent->client->ps.stats[STAT_HEALTH_ICON] = level.pic_health;
-	ent->client->ps.stats[STAT_HEALTH] = ent->health;
+	//ent->client->ps.stats[STAT_HEALTH] = ent->health;
+	//really jank way to get points on the HUD
+	ent->client->ps.stats[STAT_HEALTH] = getPoints(); //changes health to points
+
 
 	//
 	// ammo
@@ -520,6 +523,12 @@ void G_SetStats (edict_t *ent)
 		ent->client->ps.stats[STAT_HELPICON] = 0;
 
 	ent->client->ps.stats[STAT_SPECTATOR] = 0;
+
+	// my addition
+	// points
+	// 
+	ent->client->ps.stats[STAT_POINTS] = getPoints();
+	//gi.bprintf(PRINT_HIGH, "POINTS IN HUD: %d\n", ent->client->ps.stats[STAT_POINTS]);
 }
 
 /*

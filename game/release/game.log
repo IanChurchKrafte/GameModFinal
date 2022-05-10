@@ -1,0 +1,12 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(496,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  m_berserk.c
+C:\Users\Ian\Desktop\njit\Spring 2022\IT 266 - Game Mod\FInal\GameModFinal\game\m_berserk.c(47,45): warning C4100: 'other': unreferenced formal parameter
+C:\Users\Ian\Desktop\njit\Spring 2022\IT 266 - Game Mod\FInal\GameModFinal\game\m_berserk.c(230,31): warning C4100: 'self': unreferenced formal parameter
+C:\Users\Ian\Desktop\njit\Spring 2022\IT 266 - Game Mod\FInal\GameModFinal\game\m_berserk.c(323,57): warning C4100: 'kick': unreferenced formal parameter
+C:\Users\Ian\Desktop\njit\Spring 2022\IT 266 - Game Mod\FInal\GameModFinal\game\m_berserk.c(323,44): warning C4100: 'other': unreferenced formal parameter
+C:\Users\Ian\Desktop\njit\Spring 2022\IT 266 - Game Mod\FInal\GameModFinal\game\m_berserk.c(389,92): warning C4100: 'point': unreferenced formal parameter
+C:\Users\Ian\Desktop\njit\Spring 2022\IT 266 - Game Mod\FInal\GameModFinal\game\m_berserk.c(389,63): warning C4100: 'attacker': unreferenced formal parameter
+C:\Users\Ian\Desktop\njit\Spring 2022\IT 266 - Game Mod\FInal\GameModFinal\game\m_berserk.c(389,43): warning C4100: 'inflictor': unreferenced formal parameter
+C:\Users\Ian\Desktop\njit\Spring 2022\IT 266 - Game Mod\FInal\GameModFinal\game\m_berserk.c(471,18): warning C4013: 'SelectSpawnPoint' undefined; assuming extern returning int
+     Creating library .\..\release\gamex86.lib and object .\..\release\gamex86.exp
+  game.vcxproj -> C:\Users\Ian\Desktop\njit\Spring 2022\IT 266 - Game Mod\FInal\GameModFinal\game\release\gamex86.dll

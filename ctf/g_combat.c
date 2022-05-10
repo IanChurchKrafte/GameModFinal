@@ -21,6 +21,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "g_local.h"
 
+//my addition
+//global variable to track points
+int points = 0;
+
 /*
 ============
 CanDamage
@@ -523,6 +527,7 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 		}
 	}
 
+	//monster taking damage
 	if (targ->svflags & SVF_MONSTER)
 	{
 		M_ReactToDamage (targ, attacker);
@@ -532,6 +537,7 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 			// nightmare mode monsters don't go into pain frames often
 			if (skill->value == 3)
 				targ->pain_debounce_time = level.time + 5;
+			
 		}
 	}
 	else if (client)
@@ -557,7 +563,15 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 		VectorCopy (point, client->damage_from);
 	}
 }
+//my addition
 
+void addPoints(int n) {
+	points += n;
+}
+
+int getPoints() {
+	return points;
+}
 
 /*
 ============

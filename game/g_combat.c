@@ -20,6 +20,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // g_combat.c
 
 #include "g_local.h"
+//my addition
+#include <time.h>
+//global variable to track points
+int points = 0;
 
 /*
 ============
@@ -102,6 +106,7 @@ void Killed (edict_t *targ, edict_t *inflictor, edict_t *attacker, int damage, v
 		if (!(targ->monsterinfo.aiflags & AI_GOOD_GUY))
 		{
 			level.killed_monsters++;
+			addPoints(100);
 			if (coop->value && attacker->client)
 				attacker->client->resp.score++;
 			// medics won't heal monsters that they kill themselves
@@ -512,6 +517,8 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 			// nightmare mode monsters don't go into pain frames often
 			if (skill->value == 3)
 				targ->pain_debounce_time = level.time + 5;
+			addPoints(10, client);
+			
 		}
 	}
 	else if (client)
@@ -537,7 +544,178 @@ void T_Damage (edict_t *targ, edict_t *inflictor, edict_t *attacker, vec3_t dir,
 		VectorCopy (point, client->damage_from);
 	}
 }
+void addPoints(int n, edict_t *attacker) {
+	points += n;
+	checkPointsForGuns(points);
+	checkPointsForPerks(points, attacker);
+	checkForFinish(points);
+	//gi.bprintf(PRINT_HIGH, "POINTS: %d SPEED: %d\n", points, attacker->speed);
+}
 
+int getPoints() {
+	return points;
+}
+int shotgunCheck = 0, machinegunCheck = 0, rlCheck = 0.0, railCheck = 0, glCheck = 0, sshotgunCheck = 0, chainCheck = 0, hblasterCheck = 0, bfgCheck = 0;
+double ammoCheck = 0.0;
+void checkPointsForGuns(int points) { //get new guns depending on how many points the player has
+	if (points >= 500 && points < 1000) {
+		if (shotgunCheck == 0) {
+			gi.AddCommandString("give shotgun");
+			shotgunCheck = 1;
+		}
+	}
+	if (points >= 1000 && points < 1500) {
+		if (machinegunCheck == 0) {
+			gi.AddCommandString("give machinegun");
+			machinegunCheck = 1;
+			ammoCheck = 0.0;
+		}
+		if (points >= 1250 && ammoCheck != 1.0) {
+			gi.AddCommandString("give shells 50");
+			if (ammoCheck == 0.5)
+				gi.AddCommandString("give bullets 50");
+		}
+		ammoCheck += 0.5;
+	}
+	if (points >= 1500 && points < 2000) {
+		if (railCheck == 0) {
+			gi.AddCommandString("give railgun");
+			ammoCheck = 0.0;
+		}
+		if (points >= 1750 && ammoCheck != 1) {
+			gi.AddCommandString("give bullets 50");
+			if (ammoCheck == 0.5) {
+				gi.AddCommandString("give slugs 10");
+			}
+			ammoCheck += 0.5;
+		}
+	}
+	if (points >= 2000 && points < 2500) {
+		if (rlCheck == 0) {
+			gi.AddCommandString("give rocket launcher");
+			gi.AddCommandString("give grenade launcher");
+			rlCheck = 1;
+			glCheck = 1;
+			ammoCheck = 0.0;
+		}
+		if (points >= 2250 && ammoCheck != 1) {
+			gi.AddCommandString("give shells 50");
+			gi.AddCommandString("give bullets 50");
+			if (ammoCheck == 0.5) {
+				gi.AddCommandString("give rockets 5");
+				gi.AddCommandString("give grenades 5");
+			}
+			ammoCheck += 0.5;
+		}
+	}
+	if (points >= 2500 && points < 3000) {
+		if (sshotgunCheck == 0) {
+			gi.AddCommandString("give super shotgun");
+			sshotgunCheck = 1;
+			ammoCheck = 0.0;
+		}
+		if (points >= 1750 && ammoCheck != 1.0) {
+			gi.AddCommandString("give slugs 10");
+			gi.AddCommandString("give bullets 50");
+			gi.AddCommandString("give shells 50");
+			if (ammoCheck == 0.5)
+				gi.AddCommandString("give shells 50");
+			ammoCheck += 0.5;
+		}
+	}
+	if (points >= 3000 && points < 3500) {
+		if (chainCheck == 0) {
+			gi.AddCommandString("give chaingun");
+			chainCheck = 1;
+			ammoCheck = 0.0;
+		}
+		if (points >= 3250 && ammoCheck != 1.0) {
+			gi.AddCommandString("give rockets 5");
+			gi.AddCommandString("give grenades 5");
+			gi.AddCommandString("give bullets 50");
+			if (ammoCheck == 0.5)
+				gi.AddCommandString("give slugs 50");
+			ammoCheck += 0.5;
+		}
+	}
+	if (points >= 3500 && points < 4000) {
+		if (hblasterCheck == 0) {
+			gi.AddCommandString("give hyper blaster");
+			hblasterCheck = 1;
+			ammoCheck = 0.0;
+		}
+		if (points >= 3750 && ammoCheck != 1.0) {
+			gi.AddCommandString("give bullets 50");
+			gi.AddCommandString("give shells 50");
+			gi.AddCommandString("give slugs 10");
+			if (ammoCheck == 0.5) {
+				gi.AddCommandString("give rockets 5");
+				gi.AddCommandString("give grenades 5");
+			}
+			ammoCheck += 0.5;
+		}
+	}
+	if (points >= 4000) {
+		if (bfgCheck == 0) {
+			gi.AddCommandString("give bfg10k");
+			bfgCheck = 1;
+			ammoCheck = 0.0;
+		}
+		if (points % 50 == 0) {
+			gi.AddCommandString("give grenades 5");
+			gi.AddCommandString("give rockets 5");
+			gi.AddCommandString("give shells 50");
+			gi.AddCommandString("give bullets 50");
+			gi.AddCommandString("give slugs 50");
+			gi.AddCommandString("give cells 5");
+		}
+	}
+}
+double jCheck = 0.0, sCheck = 0.0;
+void checkPointsForPerks(int points, edict_t *ent) {
+	if (points >= 1000 && points < 2000 && jCheck <= 1.0) {
+		if (jCheck == 0.0) {
+			gi.bprintf(PRINT_HIGH, "Juggernaught Perk Unlocked\n");
+			gi.AddCommandString("give health");
+			gi.AddCommandString("give armor");
+			jCheck += 0.5;
+		}
+		if (jCheck == 0.5 && points >= 1750) {
+			gi.AddCommandString("give health");
+			gi.AddCommandString("give armor");
+			jCheck += 0.5;
+		}
+	}
+	else if (points >= 2000 && points < 3000) {
+		gi.bprintf(PRINT_HIGH, "Stamin Up Perk Unlocked\n"); //run faster
+		if (sCheck == 0) {
+			gi.AddCommandString("gl_sidespeed 350");
+			gi.AddCommandString("cl_forwardspeed 350");
+			gi.AddCommandString("cl upspeed 350");
+			sCheck++;
+		}
+	}
+	else if (points >= 3000 && points < 4000) {
+		gi.bprintf(PRINT_HIGH, "Double Tap Perk Unlocked (Extra Damage)\n"); //more damage
+		gi.AddCommandString("give quad damage");
+	}
+	else if (points >= 5000 && points < 6000) {
+		gi.bprintf(PRINT_HIGH, "Perk 4 Unlocked");
+	}
+	else if (points >= 6000 && points < 7000) {
+		gi.bprintf(PRINT_HIGH, "Perk 5 Unlocked");
+	}
+}
+
+int finishBOOL = 0;
+void checkForFinish(int points) {
+	if (finishBOOL == 0 && points >= 6000) {
+		gi.bprintf(PRINT_HIGH, "You have unlocked everything to unlock! Keep going to get a higher score! Total Points so far: %d\n", getPoints());
+		finishBOOL = 1;
+	}
+}
+
+//end my addition
 
 /*
 ============

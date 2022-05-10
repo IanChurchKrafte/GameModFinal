@@ -4,7 +4,7 @@
 
 ## Installation
 
-Bring the mod into your Quake 2 game directory and make a shortcut with the following command in the target section to launch it.
+Bring the mod folder (ZombiesMod) into your Quake 2 game directory and make a shortcut with the following command in the target section to launch it.
 
 ```
 +set game ZombiesMod

@@ -1,4 +1,23 @@
 /*
+Copyright (C) 1997-2001 Id Software, Inc.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+*/
+/*
 ==============================================================================
 
 BERSERK
@@ -9,6 +28,14 @@ BERSERK
 #include "g_local.h"
 #include "m_berserk.h"
 
+//my addition
+#include <time.h>
+//void newSP_berserk(void);
+//void SP_wave(void);
+void SP_berserk(void);
+//my addition
+clock_t lastSpawn = 0;
+int numEnemies = 1;
 
 static int sound_pain;
 static int sound_die;
@@ -362,7 +389,7 @@ mmove_t berserk_move_death2 = {FRAME_deathc1, FRAME_deathc8, berserk_frames_deat
 void berserk_die (edict_t *self, edict_t *inflictor, edict_t *attacker, int damage, vec3_t point)
 {
 	int		n;
-
+	//addPoints(100);
 	if (self->health <= self->gib_health)
 	{
 		gi.sound (self, CHAN_VOICE, gi.soundindex ("misc/udeath.wav"), 1, ATTN_NORM, 0);
@@ -435,4 +462,93 @@ void SP_monster_berserk (edict_t *self)
 	gi.linkentity (self);
 
 	walkmonster_start (self);
+}
+void SP_berserk(void)
+{
+	edict_t* self;
+	vec3_t spawn_origin, spawn_angles;
+	self = G_Spawn();
+	SelectSpawnPoint(spawn_origin, spawn_angles);
+	VectorCopy(spawn_origin, spawn_angles);
+	self->s.origin[2] += 16;
+
+	if (deathmatch->value)
+	{
+		G_FreeEdict(self);
+		return;
+	}
+
+	// pre-caches
+	sound_pain = gi.soundindex("berserk/berpain2.wav");
+	sound_die = gi.soundindex("berserk/berdeth2.wav");
+	sound_idle = gi.soundindex("berserk/beridle1.wav");
+	sound_punch = gi.soundindex("berserk/attack.wav");
+	sound_search = gi.soundindex("berserk/bersrch1.wav");
+	sound_sight = gi.soundindex("berserk/sight.wav");
+
+	self->s.modelindex = gi.modelindex("models/monsters/berserk/tris.md2");
+	VectorSet(self->mins, -16, -16, -24);
+	VectorSet(self->maxs, 16, 16, 32);
+	self->movetype = MOVETYPE_STEP;
+	self->solid = SOLID_BBOX;
+
+	self->health = 240;
+	self->gib_health = -60;
+	self->mass = 250;
+
+	self->pain = berserk_pain;
+	self->die = berserk_die;
+
+	self->monsterinfo.stand = berserk_stand;
+	self->monsterinfo.walk = berserk_walk;
+	self->monsterinfo.run = berserk_run;
+	self->monsterinfo.dodge = NULL;
+	self->monsterinfo.attack = NULL;
+	self->monsterinfo.melee = berserk_melee;
+	self->monsterinfo.sight = berserk_sight;
+	self->monsterinfo.search = berserk_search;
+
+	self->monsterinfo.currentmove = &berserk_move_stand;
+	self->monsterinfo.scale = MODEL_SCALE;
+
+	gi.linkentity(self);
+
+	walkmonster_start(self);
+}
+
+double elapsed(clock_t start, clock_t end) {
+	double elapsed = (double)(end - start) / CLOCKS_PER_SEC;
+	return elapsed;
+}
+edict_t* newEnt() {
+	edict_t* berserk;
+	vec3_t spawn_origin, spawn_angles;
+	berserk = G_Spawn();
+	SelectSpawnPoint(spawn_origin, spawn_angles);
+	VectorCopy(spawn_origin, spawn_angles);
+	berserk->s.origin[2] += 16;
+	return berserk;
+}
+
+int count = 1;
+void spawnWaves(clock_t currentTime) {
+	if (currentTime == 0) {//first spawn wave
+		gi.bprintf(PRINT_HIGH, "Spawning First Wave\n");
+		//spawn a wave
+		gi.AddCommandString("cmd berserk");
+		lastSpawn = clock();
+	}
+	else {
+		double el = elapsed(lastSpawn, currentTime);
+		if ((el > 20 && currentTime != 0)) {
+			gi.bprintf(PRINT_HIGH, "Spawning next wave\n");
+			for(int i=0; i<count; i++)
+				gi.AddCommandString("cmd berserk\n");
+			lastSpawn = clock();
+			count++;
+			//gi.bprintf(PRINT_HIGH, "elapsed time: %f\n", el);
+		}
+		
+		gi.bprintf(PRINT_HIGH, "Time to Next Wave: %f, Count: %d\n", 20-el, count);
+	}
 }

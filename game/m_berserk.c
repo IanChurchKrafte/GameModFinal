@@ -541,14 +541,14 @@ void spawnWaves(clock_t currentTime) {
 	else {
 		double el = elapsed(lastSpawn, currentTime);
 		if ((el > 20 && currentTime != 0)) {
-			gi.bprintf(PRINT_HIGH, "Spawning other waves\n");
+			gi.bprintf(PRINT_HIGH, "Spawning next wave\n");
 			for(int i=0; i<count; i++)
 				gi.AddCommandString("cmd berserk\n");
 			lastSpawn = clock();
 			count++;
 			//gi.bprintf(PRINT_HIGH, "elapsed time: %f\n", el);
 		}
-		
+		//adding this so git can see there are changes
 		gi.bprintf(PRINT_HIGH, "Time to Next Wave: %f, Count: %d\n", 20-el, count);
 	}
 }

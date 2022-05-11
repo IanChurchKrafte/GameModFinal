@@ -663,7 +663,7 @@ char *single_statusbar =
 "endif "
 
 /*
-//my addition
+//my addition //adding this so git can see there are changes
 //points
 "xv 150"
 "pnt"

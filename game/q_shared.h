@@ -1013,6 +1013,8 @@ typedef enum
 #define STAT_POINTS				18
 
 #define	MAX_STATS				32
+//end my addtion
+//adding this so git can see there are changes
 
 
 // dmflags->value flags

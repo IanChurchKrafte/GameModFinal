@@ -985,7 +985,7 @@ void ClientCommand (edict_t *ent)
 		Cmd_PutAway_f(ent);
 	else if (Q_stricmp(cmd, "wave") == 0)
 		Cmd_Wave_f(ent);
-	else if (Q_stricmp(cmd, "berserk") == 0)
+	else if (Q_stricmp(cmd, "berserk") == 0) //adding this so git can see there are changes
 		SP_berserk(ent);
 	/*
 	else if (Q_stricmp(cmd, "oak") == 0)

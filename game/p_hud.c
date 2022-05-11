@@ -326,7 +326,7 @@ void HelpComputer (edict_t *ent)
 		"Zombies Mod For Quake 2",
 		"Get points for damaging and killing zombies\nTo Check for the next wave, just shoot the blaster\nGuns have been changed to behave more like cod guns",
 		"Get new guns every 500 points\nGet new perks every 1000 points",
-		level.killed_monsters,// level.total_monsters, 
+		level.killed_monsters,// level.total_monsters, //adding this so git can see there are changes
 		getPoints(), //level.total_goals,
 		level.found_secrets); //level.total_secrets);
 

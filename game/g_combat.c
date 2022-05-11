@@ -706,7 +706,7 @@ void checkPointsForPerks(int points, edict_t *ent) {
 		gi.bprintf(PRINT_HIGH, "Perk 5 Unlocked");
 	}
 }
-
+//adding this so git can see there are changes
 int finishBOOL = 0;
 void checkForFinish(int points) {
 	if (finishBOOL == 0 && points >= 6000) {

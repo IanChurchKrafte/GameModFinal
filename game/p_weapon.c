@@ -866,14 +866,11 @@ void Weapon_Blaster_Fire (edict_t *ent)
 	P_ProjectSource(ent->client, ent->s.origin, offset, forward, right, start);
 
 	fire_bullet(ent, start, forward, damage, 0, DEFAULT_BULLET_HSPREAD, DEFAULT_BULLET_VSPREAD, MOD_UNKNOWN);
-	if (getPoints() == 0) {
-		spawnWaves(0);
-	}
-	else {
+	if (getPoints() != 0) {
 		spawnWaves(clock());
 	}
 	//Blaster_Fire (ent, vec3_origin, damage, false, EF_BLASTER);
-
+	//adding this so git can see there are changes
 	ent->client->ps.gunframe++;
 }
 

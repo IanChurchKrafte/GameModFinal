@@ -41,6 +41,6 @@ The points will be used to unlock new guns and perks
 ## Getting new weapons
 Every 500 points you earn will earn you a new gun and some ammo for your previous guns  
 ## Getting perks
-Every 1000 points you earn will earn you a new perk that will make you stronger  
+Every 1000 points you earn will earn you a new perk that will make you stronger (only 3 wokring so far)  
 
 
